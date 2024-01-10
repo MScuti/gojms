@@ -122,6 +122,20 @@ func (j *JmsAPIConfig) SetQuery(req *http.Request, v url.Values) *http.Request {
 	return req
 }
 
-type JmsClient struct {
+type Terminal struct {
 	Session terminal.Sessions
+}
+
+type JmsClient struct {
+	Terminal Terminal
+}
+
+func NewJmsClient(api JmsAPIConfig) *JmsClient {
+	return &JmsClient{
+		Terminal: Terminal{
+			Session: terminal.Sessions{
+				API: api,
+			},
+		},
+	}
 }
