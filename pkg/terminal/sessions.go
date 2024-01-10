@@ -2,9 +2,9 @@ package terminal
 
 import (
 	"fmt"
+	"github.com/MScuti/gojms"
+	"github.com/MScuti/gojms/pkg/utils"
 	"github.com/google/go-querystring/query"
-	"gojms"
-	"gojms/pkg/utils"
 	"net/http"
 )
 

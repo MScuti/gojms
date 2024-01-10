@@ -3,6 +3,7 @@ package gojms
 import (
 	"bytes"
 	"fmt"
+	"github.com/MScuti/gojms/pkg/terminal"
 	"github.com/bytedance/sonic"
 	"io"
 	"net/http"
@@ -122,4 +123,5 @@ func (j *JmsAPIConfig) SetQuery(req *http.Request, v url.Values) *http.Request {
 }
 
 type JmsClient struct {
+	Session terminal.Sessions
 }
