@@ -1,4 +1,4 @@
-package accouts
+package users
 
 const (
 	accountsGetAPI  = "/users/users/%s/"

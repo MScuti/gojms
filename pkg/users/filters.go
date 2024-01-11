@@ -1,4 +1,4 @@
-package accouts
+package users
 
 // UserFilter is a struct that represents the filtering options for querying account data.
 // Each struct field corresponds to a possible filter, and the `url` tag specifies the URL
