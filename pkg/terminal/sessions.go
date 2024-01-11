@@ -65,12 +65,7 @@ type SessionDetailRep struct {
 // the URL for the next page,
 // the URL for the previous page,
 // and a list of detailed session representations.
-type SessionListRep struct {
-	Count    int                `json:"count"`
-	Next     string             `json:"next"`
-	Previous interface{}        `json:"previous"`
-	Results  []SessionDetailRep `json:"results"`
-}
+type SessionListRep []SessionDetailRep
 
 // Get is a method on the Sessions struct.
 // It accepts a string id as a parameter and retrieves the session details
