@@ -5,6 +5,7 @@ import (
 	"github.com/MScuti/gojms/pkg/apiauth"
 	"github.com/MScuti/gojms/pkg/assets"
 	"github.com/MScuti/gojms/pkg/terminal"
+	"os/user"
 )
 
 // The Terminal struct holds the Sessions object for terminal operations.
@@ -25,12 +26,19 @@ type Assets struct {
 	Assets assets.Assets
 }
 
+// The User struct holds the User object for user operations.
+// It is used to manage and interact with users.
+type User struct {
+	User user.User
+}
+
 // The JmsClient struct provides a high level interface to manage Terminal, Account and Assets.
 // It embeds the Terminal, Account and Assets struct which provide operations specific to each type.
 type JmsClient struct {
 	Terminal Terminal
 	Account  Account
 	Assets   Assets
+	User     User
 }
 
 // NewJmsClient is a factory function that returns a new JmsClient.
