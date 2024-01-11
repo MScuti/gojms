@@ -2,7 +2,7 @@ package assets
 
 import (
 	"fmt"
-	"github.com/MScuti/gojms"
+	"github.com/MScuti/gojms/pkg/apiauth"
 	"github.com/MScuti/gojms/pkg/utils"
 	"github.com/google/go-querystring/query"
 	"net/http"
@@ -12,7 +12,7 @@ import (
 // This structure contains a single field of type gojms.JmsAPIConfig
 // which is used to make API requests.
 type Assets struct {
-	API gojms.JmsAPIConfig
+	API apiauth.JmsAPIConfig
 }
 
 // AssetDetailRep represents the details of an asset.

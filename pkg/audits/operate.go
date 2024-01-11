@@ -2,7 +2,7 @@ package audits
 
 import (
 	"fmt"
-	"github.com/MScuti/gojms"
+	"github.com/MScuti/gojms/pkg/apiauth"
 	"github.com/MScuti/gojms/pkg/utils"
 	"github.com/google/go-querystring/query"
 	"net/http"
@@ -11,7 +11,7 @@ import (
 // OperateLog is a structure that holds configuration for the JmsAPI.
 // It contains a single field of type gojms.JmsAPIConfig which is used to make API requests.
 type OperateLog struct {
-	API gojms.JmsAPIConfig
+	API apiauth.JmsAPIConfig
 }
 
 // Get is a method on the OperateLog struct.
