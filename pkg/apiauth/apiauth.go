@@ -14,6 +14,7 @@ import (
 type JmsAPIConfig struct {
 	Endpoints string `json:"endpoints"`
 	Token     string `json:"token"`
+	Debug     bool   `json:"debug"`
 }
 
 // MakeRequest creates an HTTP request with a specified method, endpoint, and data.
@@ -94,6 +95,11 @@ func (j *JmsAPIConfig) DoRequest(req *http.Request, result interface{}) error {
 		return err
 	}
 	defer resp.Body.Close()
+
+	// set debug
+	if j.Debug {
+		fmt.Printf("response body: %s\n", body)
+	}
 
 	// check response status code
 	if resp.StatusCode < 200 || resp.StatusCode >= 400 {
