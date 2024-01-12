@@ -1,6 +1,6 @@
 package users
 
 const (
-	accountsGetAPI  = "/users/users/%s/"
-	accountsListAPI = "/users/users/"
+	userGetAPI  = "/users/users/%s/"
+	userListAPI = "/users/users/"
 )

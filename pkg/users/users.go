@@ -21,12 +21,12 @@ type User struct {
 // Fields are tagged with 'json' specifying the JSON payload equivalent name.
 // Empty field means the account detail is not available / not applicable.
 type UserDetailRep struct {
-	Id       string `json:"id"`
-	Name     string `json:"name"`
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Wechat   string `json:"wechat"`
-	Phone    string `json:"phone"`
+	Id       string      `json:"id"`
+	Name     string      `json:"name"`
+	Username string      `json:"username"`
+	Email    string      `json:"email"`
+	Wechat   string      `json:"wechat"`
+	Phone    interface{} `json:"phone"`
 	MfaLevel struct {
 		Value int    `json:"value"`
 		Label string `json:"label"`
@@ -95,7 +95,7 @@ func (u *User) Get(id string) (*UserDetailRep, error) {
 	}
 
 	// combine api endpoint
-	endpoint := utils.CombineURL(u.API.Endpoints, accountsGetAPI)
+	endpoint := utils.CombineURL(u.API.Endpoints, userGetAPI)
 	endpoint = fmt.Sprintf(endpoint, id)
 
 	// make request
@@ -119,7 +119,7 @@ func (u *User) Get(id string) (*UserDetailRep, error) {
 // If there's an error during these operations, it returns nil and the error.
 func (u *User) List(filter *UserFilter) (*UserListRep, error) {
 	// combine api endpoint
-	endpoint := utils.CombineURL(u.API.Endpoints, accountsListAPI)
+	endpoint := utils.CombineURL(u.API.Endpoints, userListAPI)
 
 	// make request
 	req, err := u.API.MakeRequest(http.MethodGet, endpoint, nil)
