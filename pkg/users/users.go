@@ -183,7 +183,7 @@ func (u *User) List(filter *UserFilter) (*UserListRep, error) {
 		return data, err
 	} else {
 		data := make([]UserDetailRep, 0)
-		err = u.API.DoRequest(req, data)
+		err = u.API.DoRequest(req, &data)
 		if err != nil {
 			return nil, err
 		}
