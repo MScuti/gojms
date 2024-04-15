@@ -78,7 +78,12 @@ type UserDetailRep struct {
 
 // UserListRep is a type that represents a list of AccountDetailRep objects.
 // It's essentially a slice of AccountDetailRep struct instances representing multiple accounts details.
-type UserListRep []UserDetailRep
+type UserListRep struct {
+	Count    int             `json:"count"`
+	Next     interface{}     `json:"next"`
+	Previous interface{}     `json:"previous"`
+	Results  []UserDetailRep `json:"results"`
+}
 
 // Get is a method on the Account struct.
 // It accepts a string id as a parameter and retrieves the account details
@@ -137,7 +142,19 @@ func (u *User) List(filter *UserFilter) (*UserListRep, error) {
 	}
 
 	// do request
-	data := &UserListRep{}
-	err = u.API.DoRequest(req, data)
-	return data, err
+	if len(req.URL.Query()) > 0 {
+		data := &UserListRep{}
+		err = u.API.DoRequest(req, data)
+		return data, err
+	} else {
+		data := make([]UserDetailRep, 0)
+		err = u.API.DoRequest(req, data)
+		if err != nil {
+			return nil, err
+		}
+		return &UserListRep{
+			Count:   len(data),
+			Results: data,
+		}, nil
+	}
 }
