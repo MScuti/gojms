@@ -8,19 +8,19 @@ package users
 // AssetID, Assets, Nodes, NodeID, HasSecret, Platform, Category, Type, Search, Order,
 // Limit, Offset.
 type UserFilter struct {
-	ID             string `url:"id"`
-	Username       string `url:"username"`
-	Email          string `url:"email"`
-	Name           string `url:"name"`
-	Groups         string `url:"groups"`
-	GroupID        string `url:"group_id"`
-	ExcludeGroupID string `url:"exclude_group_id"`
-	Source         string `url:"source"`
-	OrgRoles       string `url:"org_roles"`
-	SystemRoles    string `url:"system_roles"`
-	IsActive       string `url:"is_active"`
-	Search         string `url:"search"`
-	Order          string `url:"order"`
-	Limit          int    `url:"limit"`
-	Offset         int    `url:"offset"`
+	ID             string `url:"id,omitempty"`
+	Username       string `url:"username,omitempty"`
+	Email          string `url:"email,omitempty"`
+	Name           string `url:"name,omitempty"`
+	Groups         string `url:"groups,omitempty"`
+	GroupID        string `url:"group_id,omitempty"`
+	ExcludeGroupID string `url:"exclude_group_id,omitempty"`
+	Source         string `url:"source,omitempty"`
+	OrgRoles       string `url:"org_roles,omitempty"`
+	SystemRoles    string `url:"system_roles,omitempty"`
+	IsActive       string `url:"is_active,omitempty"`
+	Search         string `url:"search,omitempty"`
+	Order          string `url:"order,omitempty"`
+	Limit          int    `url:"limit,omitempty"`
+	Offset         int    `url:"offset,omitempty"`
 }
