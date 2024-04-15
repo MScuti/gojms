@@ -177,7 +177,7 @@ func (u *User) List(filter *UserFilter) (*UserListRep, error) {
 	}
 
 	// do request
-	if len(req.URL.Query()) > 0 {
+	if req.URL.Query().Get("limit") != "" {
 		data := &UserListRep{}
 		err = u.API.DoRequest(req, data)
 		return data, err
