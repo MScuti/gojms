@@ -85,6 +85,41 @@ type UserListRep struct {
 	Results  []UserDetailRep `json:"results"`
 }
 
+type UserAssets struct {
+	Id       string      `json:"id"`
+	Name     string      `json:"name"`
+	Address  string      `json:"address"`
+	Domain   interface{} `json:"domain"`
+	Platform struct {
+		Id   int    `json:"id"`
+		Name string `json:"name"`
+	} `json:"platform"`
+	Comment      string `json:"comment"`
+	OrgId        string `json:"org_id"`
+	CreatedBy    string `json:"created_by"`
+	Connectivity struct {
+		Value string `json:"value"`
+		Label string `json:"label"`
+	} `json:"connectivity"`
+	Nodes []struct {
+		Id   string `json:"id"`
+		Name string `json:"name"`
+	} `json:"nodes"`
+	Labels   []interface{} `json:"labels"`
+	Category struct {
+		Value string `json:"value"`
+		Label string `json:"label"`
+	} `json:"category"`
+	Type struct {
+		Value string `json:"value"`
+		Label string `json:"label"`
+	} `json:"type"`
+	OrgName      string  `json:"org_name"`
+	IsActive     bool    `json:"is_active"`
+	DateVerified *string `json:"date_verified"`
+	DateCreated  string  `json:"date_created"`
+}
+
 // Get is a method on the Account struct.
 // It accepts a string id as a parameter and retrieves the account details
 // associated with that id from the server.
@@ -157,4 +192,20 @@ func (u *User) List(filter *UserFilter) (*UserListRep, error) {
 			Results: data,
 		}, nil
 	}
+}
+
+func (u *User) Assets(id string) (*[]UserAssets, error) {
+	// combine api endpoint
+	endpoint := utils.CombineURL(u.API.GetEndpoint(), fmt.Sprintf(userAssetsAPI, id))
+
+	// make request
+	req, err := u.API.MakeRequest(http.MethodGet, endpoint, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	// do request
+	data := make([]UserAssets, 0)
+	err = u.API.DoRequest(req, &data)
+	return &data, err
 }
