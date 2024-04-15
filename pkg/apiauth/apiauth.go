@@ -126,3 +126,7 @@ func (j *JmsAPIConfig) SetQuery(req *http.Request, v url.Values) *http.Request {
 	req.URL.RawQuery = v.Encode()
 	return req
 }
+
+func (j *JmsAPIConfig) GetEndpoint() string {
+	return j.Endpoints
+}

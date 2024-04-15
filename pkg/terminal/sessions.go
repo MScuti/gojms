@@ -11,7 +11,7 @@ import (
 // Sessions is a struct that holds configuration for the JmsAPI.
 // It contains a single field of type gojms.JmsAPIConfig which is used to make API requests.
 type Sessions struct {
-	API apiauth.JmsAPIConfig
+	API apiauth.JmsAPI
 }
 
 // SessionDetailRep represents the detailed response of a session.

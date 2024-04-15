@@ -12,7 +12,7 @@ import (
 // This structure contains a single field of type gojms.JmsAPIConfig
 // which is used to make API requests.
 type Assets struct {
-	API apiauth.JmsAPIConfig
+	API apiauth.JmsAPI
 }
 
 // AssetDetailRep represents the details of an asset.
@@ -146,7 +146,7 @@ func (s *Assets) Get(id string) (*AssetDetailRep, error) {
 	}
 
 	// combine api endpoint
-	endpoint := utils.CombineURL(s.API.Endpoints, assetsGetAPI)
+	endpoint := utils.CombineURL(s.API.GetEndpoint(), assetsGetAPI)
 	endpoint = fmt.Sprintf(endpoint, id)
 
 	// make request
@@ -171,7 +171,7 @@ func (s *Assets) Get(id string) (*AssetDetailRep, error) {
 // If there's an error during these operations, it returns nil and the relevant error.
 func (s *Assets) List(filter *AssetFilter) (*AssetListRep, error) {
 	// combine api endpoint
-	endpoint := utils.CombineURL(s.API.Endpoints, assetsListAPI)
+	endpoint := utils.CombineURL(s.API.GetEndpoint(), assetsListAPI)
 
 	// make request
 	req, err := s.API.MakeRequest(http.MethodGet, endpoint, nil)

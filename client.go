@@ -41,6 +41,13 @@ type JmsClient struct {
 	User     User
 }
 
+type JmsAKClient struct {
+	Terminal Terminal
+	Account  Account
+	Assets   Assets
+	User     User
+}
+
 // NewJmsClient is a factory function that returns a new JmsClient.
 // It sets up the Terminal, Account, and Assets with the provided JmsAPIConfig,
 // This makes it convenient to create a JmsClient with a common API configuration.
@@ -48,21 +55,45 @@ func NewJmsClient(api apiauth.JmsAPIConfig) *JmsClient {
 	return &JmsClient{
 		Terminal: Terminal{
 			Session: terminal.Sessions{
-				API: api,
+				API: &api,
 			},
 		},
 		Account: Account{
 			Account: accouts.Account{
-				API: api,
+				API: &api,
 			},
 		},
 		Assets: Assets{
 			Assets: assets.Assets{
-				API: api,
+				API: &api,
 			},
 		},
 		User: User{
-			User: users.User{API: api},
+			User: users.User{API: &api},
+		},
+	}
+}
+
+// NewJmsAKClient is a factory function that returns a new NewJmsAKClient.
+func NewJmsAKClient(api apiauth.JmsAKConfig) *JmsAKClient {
+	return &JmsAKClient{
+		Terminal: Terminal{
+			Session: terminal.Sessions{
+				API: &api,
+			},
+		},
+		Account: Account{
+			Account: accouts.Account{
+				API: &api,
+			},
+		},
+		Assets: Assets{
+			Assets: assets.Assets{
+				API: &api,
+			},
+		},
+		User: User{
+			User: users.User{API: &api},
 		},
 	}
 }

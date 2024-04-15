@@ -12,7 +12,7 @@ import (
 // This structure contains a single field of type gojms.JmsAPIConfig
 // which is used to make API requests.
 type User struct {
-	API apiauth.JmsAPIConfig
+	API apiauth.JmsAPI
 }
 
 // UserDetailRep serves as a representation for account details.
@@ -95,7 +95,7 @@ func (u *User) Get(id string) (*UserDetailRep, error) {
 	}
 
 	// combine api endpoint
-	endpoint := utils.CombineURL(u.API.Endpoints, userGetAPI)
+	endpoint := utils.CombineURL(u.API.GetEndpoint(), userGetAPI)
 	endpoint = fmt.Sprintf(endpoint, id)
 
 	// make request
@@ -119,7 +119,7 @@ func (u *User) Get(id string) (*UserDetailRep, error) {
 // If there's an error during these operations, it returns nil and the error.
 func (u *User) List(filter *UserFilter) (*UserListRep, error) {
 	// combine api endpoint
-	endpoint := utils.CombineURL(u.API.Endpoints, userListAPI)
+	endpoint := utils.CombineURL(u.API.GetEndpoint(), userListAPI)
 
 	// make request
 	req, err := u.API.MakeRequest(http.MethodGet, endpoint, nil)
