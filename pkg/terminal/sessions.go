@@ -82,7 +82,7 @@ func (s *Sessions) Get(id string) (*SessionDetailRep, error) {
 	}
 
 	// combine api endpoint
-	endpoint := utils.CombineURL(s.API.Endpoints, sessionGetAPI)
+	endpoint := utils.CombineURL(s.API.GetEndpoint(), sessionGetAPI)
 	endpoint = fmt.Sprintf(endpoint, id)
 
 	// make request
@@ -107,7 +107,7 @@ func (s *Sessions) Get(id string) (*SessionDetailRep, error) {
 // If there's an error during these operations, it returns nil and the error.
 func (s *Sessions) List(filter *SessionsFilter) (*SessionListRep, error) {
 	// combine api endpoint
-	endpoint := utils.CombineURL(s.API.Endpoints, sessionListAPI)
+	endpoint := utils.CombineURL(s.API.GetEndpoint(), sessionListAPI)
 
 	// make request
 	req, err := s.API.MakeRequest(http.MethodGet, endpoint, nil)
