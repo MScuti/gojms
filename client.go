@@ -160,7 +160,7 @@ func NewJmsAKClient(api apiauth.JmsAKConfig) *JmsAKClient {
 //   - The function initializes a new JmsSdkClient struct with the provided api, setting up the Terminal, Account, Assets, and User fields.
 //   - The provided JmsSDKConfig is set as the API for the Sessions field of Terminal, Account field of Account, Assets field of Assets, and User field of User.
 //   - Finally, the function returns a pointer to this newly initialized JmsSdkClient struct.
-func NewSdkClient(api apiauth.JmsSDKConfig) *JmsSdkClient {
+func NewJmsSdkClient(api apiauth.JmsSDKConfig) *JmsSdkClient {
 	return &JmsSdkClient{
 		Terminal: Terminal{
 			Session: terminal.Sessions{
