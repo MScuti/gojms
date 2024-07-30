@@ -269,3 +269,13 @@ func (j *JmsSDKConfig) SetQuery(req *http.Request, v url.Values) *http.Request {
 func (j *JmsSDKConfig) GetEndpoint() string {
 	return j.Endpoints
 }
+
+func (j *JmsSDKConfig) SignDemo() {
+	req, _ := http.NewRequest("GET", "https://www.baidu.com", nil)
+	err := j.SignReq(req)
+	if err != nil {
+		logrus.Infof("sign request error: %s", err)
+		return
+	}
+	logrus.Infof("sign request success, token:%s", req.Header.Get("Authorization"))
+}
