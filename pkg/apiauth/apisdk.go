@@ -71,8 +71,7 @@ type JmsSDKConfig struct {
 //   - Finally, it signs the request using the retrieved AccessKey and SecretKey.
 //     If any error occurs during this process, it returns the error.
 func (j *JmsSDKConfig) SignReq(r *http.Request) error {
-
-	// read envs
+	// check conjur config
 	if j.ConjurFileName == "" {
 		return errors.New("ConjurEnvName not found")
 	}
