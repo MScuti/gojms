@@ -40,6 +40,8 @@ import (
 //
 // Each field in the struct corresponds to a configuration setting for the JmsSDK.
 type JmsSDKConfig struct {
+	AKPath         string `json:"akpath"`
+	SKPath         string `json:"skpath"`
 	Endpoints      string `json:"endpoints"`
 	Debug          bool   `json:"debug"`
 	ConjurFileName string `json:"conjur_file_name"`
@@ -71,19 +73,16 @@ type JmsSDKConfig struct {
 func (j *JmsSDKConfig) SignReq(r *http.Request) error {
 
 	// read envs
-	conjurFile := os.Getenv("conjurenvname")
-	if conjurFile == "" {
+	if j.ConjurFileName == "" {
 		return errors.New("ConjurEnvName not found")
 	}
-	akPath := os.Getenv("akpath")
-	if akPath == "" {
+	if j.AKPath == "" {
 		return errors.New("AKPath not found")
 	}
-	skPath := os.Getenv("skpath")
-	if skPath == "" {
+	if j.SKPath == "" {
 		return errors.New("SKPath not found")
 	}
-	cFile := os.Getenv(conjurFile)
+	cFile := os.Getenv(j.ConjurFileName)
 	if cFile == "" {
 		return errors.New("CONJUR_AUTHN_TOKEN_FILE not found")
 	}
@@ -99,11 +98,11 @@ func (j *JmsSDKConfig) SignReq(r *http.Request) error {
 	}
 
 	// retrieve ak and sk
-	ak, err := cClient.RetrieveSecret(akPath)
+	ak, err := cClient.RetrieveSecret(j.AKPath)
 	if err != nil {
 		return fmt.Errorf("error retrieving ak: %v", err)
 	}
-	sk, err := cClient.RetrieveSecret(skPath)
+	sk, err := cClient.RetrieveSecret(j.SKPath)
 	if err != nil {
 		return fmt.Errorf("error retrieving sk: %v", err)
 	}
