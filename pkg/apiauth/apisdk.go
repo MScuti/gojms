@@ -106,7 +106,7 @@ func (j *JmsSDKConfig) SignReq(r *http.Request) error {
 	if err != nil {
 		return fmt.Errorf("error retrieving sk: %v", err)
 	}
-	logrus.Infof("ak: %s, sk: %s\n", ak, sk)
+	logrus.Infof("ak: %s, sk: %s", ak, sk)
 
 	// sign request
 	signer, err := httpsig.NewRequestSigner(string(ak), string(sk), "hmac-sha256")
