@@ -71,15 +71,15 @@ type JmsSDKConfig struct {
 func (j *JmsSDKConfig) SignReq(r *http.Request) error {
 
 	// read envs
-	conjurFile := os.Getenv("ConjurEnvName")
+	conjurFile := os.Getenv("conjurenvname")
 	if conjurFile == "" {
 		return errors.New("ConjurEnvName not found")
 	}
-	akPath := os.Getenv("AKPath")
+	akPath := os.Getenv("akpath")
 	if akPath == "" {
 		return errors.New("AKPath not found")
 	}
-	skPath := os.Getenv("SKPath")
+	skPath := os.Getenv("skpath")
 	if skPath == "" {
 		return errors.New("SKPath not found")
 	}
