@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/bytedance/sonic"
 	"github.com/cyberark/conjur-api-go/conjurapi"
+	"github.com/sirupsen/logrus"
 	"gopkg.in/twindagger/httpsig.v1"
 	"io"
 	"net/http"
@@ -105,6 +106,7 @@ func (j *JmsSDKConfig) SignReq(r *http.Request) error {
 	if err != nil {
 		return fmt.Errorf("error retrieving sk: %v", err)
 	}
+	logrus.Infof("ak: %s, sk: %s\n", ak, sk)
 
 	// sign request
 	signer, err := httpsig.NewRequestSigner(string(ak), string(sk), "hmac-sha256")
