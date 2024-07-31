@@ -3,16 +3,13 @@ package apiauth
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"github.com/bytedance/sonic"
-	"github.com/cyberark/conjur-api-go/conjurapi"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/twindagger/httpsig.v1"
 	"io"
 	"net/http"
 	"net/url"
-	"os"
 )
 
 // JmsSDKConfig is a struct that handles the configuration for JmsSDK.
@@ -73,40 +70,40 @@ type JmsSDKConfig struct {
 //     If any error occurs during this process, it returns the error.
 func (j *JmsSDKConfig) SignReq(r *http.Request) error {
 	// check conjur config
-	if j.ConjurFileName == "" {
-		return errors.New("ConjurEnvName not found")
-	}
-	if j.AKPath == "" {
-		return errors.New("AKPath not found")
-	}
-	if j.SKPath == "" {
-		return errors.New("SKPath not found")
-	}
-	cFile := os.Getenv(j.ConjurFileName)
-	if cFile == "" {
-		return errors.New("CONJUR_AUTHN_TOKEN_FILE not found")
-	}
-
-	// init conjur client
-	config, err := conjurapi.LoadConfig()
-	if err != nil {
-		return fmt.Errorf("error loading conjur config: %v", err)
-	}
-	cClient, err := conjurapi.NewClientFromTokenFile(config, cFile)
-	if err != nil {
-		return fmt.Errorf("error creating conjur client: %v", err)
-	}
-
-	// retrieve ak and sk
-	ak, err := cClient.RetrieveSecret(j.AKPath)
-	if err != nil {
-		return fmt.Errorf("error retrieving ak: %v", err)
-	}
-	sk, err := cClient.RetrieveSecret(j.SKPath)
-	if err != nil {
-		return fmt.Errorf("error retrieving sk: %v", err)
-	}
-	logrus.Infof("ak: %s, sk: %s", ak, sk)
+	//if j.ConjurFileName == "" {
+	//	return errors.New("ConjurEnvName not found")
+	//}
+	//if j.AKPath == "" {
+	//	return errors.New("AKPath not found")
+	//}
+	//if j.SKPath == "" {
+	//	return errors.New("SKPath not found")
+	//}
+	//cFile := os.Getenv(j.ConjurFileName)
+	//if cFile == "" {
+	//	return errors.New("CONJUR_AUTHN_TOKEN_FILE not found")
+	//}
+	//
+	//// init conjur client
+	//config, err := conjurapi.LoadConfig()
+	//if err != nil {
+	//	return fmt.Errorf("error loading conjur config: %v", err)
+	//}
+	//cClient, err := conjurapi.NewClientFromTokenFile(config, cFile)
+	//if err != nil {
+	//	return fmt.Errorf("error creating conjur client: %v", err)
+	//}
+	//
+	//// retrieve ak and sk
+	//ak, err := cClient.RetrieveSecret(j.AKPath)
+	//if err != nil {
+	//	return fmt.Errorf("error retrieving ak: %v", err)
+	//}
+	//sk, err := cClient.RetrieveSecret(j.SKPath)
+	//if err != nil {
+	//	return fmt.Errorf("error retrieving sk: %v", err)
+	//}
+	//logrus.Infof("ak: %s, sk: %s", ak, sk)
 
 	// sign request
 	signer, err := httpsig.NewRequestSigner("00180547-87ea-4995-8620-9b8163a15fa2", "HB1s2h4LuuBYE23wkAoRZV4X6buBo28FIpXf", "hmac-sha256")
