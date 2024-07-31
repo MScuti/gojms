@@ -327,7 +327,7 @@ func getPathAndQueryFromURL(url *url.URL) (pathAndQuery string) {
 }
 
 func (j *JmsSDKConfig) SignDemo() {
-	req, _ := http.NewRequest("GET", "https://www.baidu.com", nil)
+	req, _ := http.NewRequest("GET", "https://jumpserver.it.lixiangoa.com/api/v1/perms/users/7c20eab2-7588-4f06-a996-1a575e43bffa/assets", nil)
 	j.SignRequest(req, []string{"(request-target)", "date"}, nil)
 	err := j.SignReq(req)
 	if err != nil {
@@ -335,4 +335,7 @@ func (j *JmsSDKConfig) SignDemo() {
 		return
 	}
 	logrus.Infof("sign request success, token:%s", req.Header.Get("Authorization"))
+
+	j.DoRequest(req, nil)
+
 }
