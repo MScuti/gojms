@@ -326,8 +326,8 @@ func getPathAndQueryFromURL(url *url.URL) (pathAndQuery string) {
 	return pathAndQuery
 }
 
-func (j *JmsSDKConfig) SignDemo() {
-	req, _ := http.NewRequest("GET", "https://jumpserver.it.lixiangoa.com/api/v1/perms/users/7c20eab2-7588-4f06-a996-1a575e43bffa/assets/", nil)
+func (j *JmsSDKConfig) SignDemo(addr string) {
+	req, _ := http.NewRequest("GET", addr, nil)
 	j.SignRequest(req, []string{"(request-target)", "date"}, nil)
 	err := j.SignReq(req)
 	if err != nil {
