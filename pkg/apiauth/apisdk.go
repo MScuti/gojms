@@ -165,10 +165,6 @@ func (j *JmsSDKConfig) MakeRequest(method, endpoint string, body interface{}) (*
 
 	// set header
 	req.Header.Set("Content-Type", "application/json")
-	err = j.SignReq(req)
-	if err != nil {
-		return nil, fmt.Errorf("sign request error: %s", err)
-	}
 	return req, nil
 }
 
@@ -195,6 +191,12 @@ func (j *JmsSDKConfig) MakeRequest(method, endpoint string, body interface{}) (*
 //   - If the Debug field of the JmsSDKConfig struct is true, it prints the response body to the console.
 //   - It checks the status code of the response. If it is not in the 200-399 range, it
 func (j *JmsSDKConfig) DoRequest(req *http.Request, result interface{}) error {
+	// sign request
+	err := j.SignReq(req)
+	if err != nil {
+		return fmt.Errorf("sign request error: %s", err)
+	}
+
 	// do request
 	client := &http.Client{}
 	resp, err := client.Do(req)
