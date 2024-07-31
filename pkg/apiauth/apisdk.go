@@ -3,6 +3,7 @@ package apiauth
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/bytedance/sonic"
 	"github.com/sirupsen/logrus"
@@ -10,6 +11,8 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strings"
+	"time"
 )
 
 // JmsSDKConfig is a struct that handles the configuration for JmsSDK.
@@ -267,8 +270,65 @@ func (j *JmsSDKConfig) GetEndpoint() string {
 	return j.Endpoints
 }
 
+func (j *JmsSDKConfig) SignRequest(request *http.Request, headers []string, ext map[string]string) error {
+	if _, ok := request.Header["Date"]; !ok {
+		request.Header["Date"] = []string{time.Now().Format(time.RFC1123)}
+	}
+	if len(headers) == 0 {
+		headers = []string{"date"}
+	}
+	lines := make([]string, 0, len(headers))
+	for _, h := range headers {
+		h = strings.ToLower(h)
+		if h == "request-line" {
+			if false {
+				return errors.New("request-line is not a valid header with strict parsing enabled")
+			}
+			lines = append(lines, fmt.Sprintf("%s %s %s", request.Method, j.getPathAndQueryFromURL(request.URL), request.Proto))
+		} else if h == "(request-target)" {
+			lines = append(lines, fmt.Sprintf("(request-target): %s %s", strings.ToLower(request.Method), getPathAndQueryFromURL(request.URL)))
+		} else if h == "host" {
+			lines = append(lines, fmt.Sprintf("%s: %s", h, request.URL.Host))
+		} else if h == "content-length" {
+			lines = append(lines, fmt.Sprintf("%s: %d", h, request.ContentLength))
+		} else {
+			values, ok := request.Header[http.CanonicalHeaderKey(h)]
+			if !ok {
+				return fmt.Errorf("No value for header \"%s\"", h)
+			}
+			lines = append(lines, fmt.Sprintf("%s: %s", h, values[0]))
+		}
+	}
+	stringToSign := strings.Join(lines, "\n")
+	fmt.Printf("stringToSign: %s\n", stringToSign)
+	return nil
+}
+
+func (j *JmsSDKConfig) getPathAndQueryFromURL(url *url.URL) (pathAndQuery string) {
+	pathAndQuery = url.Path
+	if pathAndQuery == "" {
+		pathAndQuery = "/"
+	}
+	if url.RawQuery != "" {
+		pathAndQuery += "?" + url.RawQuery
+	}
+	return pathAndQuery
+}
+
+func getPathAndQueryFromURL(url *url.URL) (pathAndQuery string) {
+	pathAndQuery = url.Path
+	if pathAndQuery == "" {
+		pathAndQuery = "/"
+	}
+	if url.RawQuery != "" {
+		pathAndQuery += "?" + url.RawQuery
+	}
+	return pathAndQuery
+}
+
 func (j *JmsSDKConfig) SignDemo() {
 	req, _ := http.NewRequest("GET", "https://www.baidu.com", nil)
+	j.SignRequest(req, []string{"(request-target)", "date"}, nil)
 	err := j.SignReq(req)
 	if err != nil {
 		logrus.Infof("sign request error: %s", err)
