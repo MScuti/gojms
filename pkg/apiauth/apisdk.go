@@ -153,6 +153,10 @@ func (j *JmsSDKConfig) MakeRequest(method, endpoint string, body interface{}) (*
 		bodyReader = bytes.NewReader(b)
 	}
 
+	if j.Debug {
+		fmt.Printf("request endpoint: %s, method:%s\n", endpoint, method)
+	}
+
 	// make request
 	req, err := http.NewRequest(method, endpoint, bodyReader)
 	if err != nil {
